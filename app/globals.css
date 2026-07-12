@@ -1,0 +1,223 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-border: var(--sidebar-border);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  --background: oklch(0.98 0.005 260);
+  --foreground: oklch(0.24 0.03 265);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.03 265);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.03 265);
+
+  /* Deep Navy from brand */
+  --primary: oklch(0.27 0.05 265);
+  --primary-foreground: oklch(0.98 0.005 260);
+
+  --secondary: oklch(0.95 0.008 260);
+  --secondary-foreground: oklch(0.27 0.05 265);
+
+  --muted: oklch(0.96 0.006 260);
+  --muted-foreground: oklch(0.50 0.02 265);
+
+  /* Vivid Coral/Orange from brand */
+  --accent: oklch(0.63 0.18 41);
+  --accent-foreground: oklch(0.99 0.004 260);
+
+  --destructive: oklch(0.58 0.20 25);
+  --destructive-foreground: oklch(0.99 0.004 260);
+
+  --success: oklch(0.62 0.15 155);
+  --success-foreground: oklch(0.99 0.004 260);
+
+  --warning: oklch(0.76 0.14 75);
+  --warning-foreground: oklch(0.27 0.05 265);
+
+  --border: oklch(0.92 0.008 260);
+  --input: oklch(0.92 0.008 260);
+  --ring: oklch(0.63 0.18 41);
+
+  /* Sidebar - Dark Navy */
+  --sidebar: oklch(0.22 0.04 265);
+  --sidebar-foreground: oklch(0.96 0.006 260);
+  --sidebar-muted: oklch(0.65 0.02 265);
+  --sidebar-accent: oklch(0.63 0.18 41);
+  --sidebar-border: oklch(0.28 0.04 265);
+}
+
+html.dark {
+  --background: oklch(0.14 0.015 260);
+  --foreground: oklch(0.93 0.01 260);
+
+  --card: oklch(0.18 0.018 260);
+  --card-foreground: oklch(0.93 0.01 260);
+
+  --popover: oklch(0.18 0.018 260);
+  --popover-foreground: oklch(0.93 0.01 260);
+
+  --primary: oklch(0.93 0.01 260);
+  --primary-foreground: oklch(0.14 0.015 260);
+
+  --secondary: oklch(0.24 0.02 260);
+  --secondary-foreground: oklch(0.93 0.01 260);
+
+  --muted: oklch(0.22 0.015 260);
+  --muted-foreground: oklch(0.68 0.02 265);
+
+  --accent: oklch(0.68 0.20 41);
+  --accent-foreground: oklch(0.98 0.004 260);
+
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.99 0.004 260);
+
+  --success: oklch(0.65 0.18 155);
+  --success-foreground: oklch(0.99 0.004 260);
+
+  --warning: oklch(0.78 0.16 75);
+  --warning-foreground: oklch(0.20 0.05 265);
+
+  --border: oklch(0.25 0.02 260);
+  --input: oklch(0.25 0.02 260);
+  --ring: oklch(0.68 0.20 41);
+
+  --sidebar: oklch(0.11 0.012 260);
+  --sidebar-foreground: oklch(0.93 0.01 260);
+  --sidebar-muted: oklch(0.55 0.02 265);
+  --sidebar-accent: oklch(0.68 0.20 41);
+  --sidebar-border: oklch(0.16 0.012 260);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                color 0.15s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Custom marquee animations for RouteX live dispatch status ticker */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 45s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom interactive animations for RouteX Fleet Control */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 12s ease infinite;
+}
+
+@keyframes float-gentle {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(0.5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-float {
+  animation: float-gentle 6s ease-in-out infinite;
+}
+
+@keyframes radar-pulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { opacity: 0.3; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.radar-ping {
+  position: relative;
+  display: inline-flex;
+}
+
+.radar-ping::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background-color: currentColor;
+  animation: radar-pulse 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.interactive-card {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.interactive-card:hover {
+  transform: translateY(-3px) scale(1.008);
+  border-color: var(--accent);
+  box-shadow: 0 12px 24px -10px oklch(from var(--primary) l c h / 0.15);
+}
+
+/* Glassmorphism panel base */
+.glass-panel {
+  background: oklch(from var(--card) l c h / 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+
