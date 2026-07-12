@@ -8,6 +8,8 @@
 
 Built for the **Odoo Hackathon**.
 
+🔗 **Live Demo**: [routeex.netlify.app](https://routeex.netlify.app)
+
 ---
 
 ## 📋 Problem Statement
