@@ -5,6 +5,7 @@ export const auth = betterAuth({
   database: pool,
   baseURL:
     process.env.BETTER_AUTH_URL ??
+    process.env.URL ??
     (process.env.VERCEL_PROJECT_PRODUCTION_URL
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
       : process.env.VERCEL_URL
@@ -20,6 +21,8 @@ export const auth = betterAuth({
     ...(process.env.VERCEL_PROJECT_PRODUCTION_URL
       ? [`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`]
       : []),
+    ...(process.env.URL ? [process.env.URL] : []),
+    ...(process.env.DEPLOY_PRIME_URL ? [process.env.DEPLOY_PRIME_URL] : []),
   ],
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
