@@ -1,196 +1,107 @@
 <p align="center">
-  <img src="assets/route_x-logo.jpg" alt="RouteX logo" width="360">
+  <img src="public/route-x-logo.jpg" alt="RouteX logo" width="160" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15)">
 </p>
 
 # RouteX - Smart Transport Operations Platform
 
 > A centralized transport operations platform for managing vehicles, drivers, trips, maintenance, fuel, expenses, and fleet performance.
 
-Built for the **Odoo Hackathon (8 hours)**.
+Built for the **Odoo Hackathon**.
 
-## Problem statement
+---
+
+## 📋 Problem Statement
 
 Transport companies often manage fleets through spreadsheets and logbooks. This makes it easy to miss maintenance, assign unavailable drivers or vehicles, exceed load limits, lose track of fuel costs, and make decisions without clear operational data.
 
-**RouteX** replaces these disconnected manual processes with one simple platform for fleet managers, drivers, safety officers, and financial analysts.
+**RouteX** replaces these disconnected manual processes with a single, integrated command center for fleet managers, drivers, safety officers, and financial analysts.
 
-## Key features
+---
 
-- Secure email/password authentication
-- Role-based access control (RBAC)
-- Fleet dashboard with live operational KPIs
-- Vehicle registry with search, filters, and status tracking
-- Driver management with licence-expiry checks and safety scores
-- Trip creation, dispatch, completion, and cancellation workflow
-- Automatic vehicle and driver status updates
-- Maintenance workflow that removes vehicles from dispatch availability
-- Fuel logs and expense tracking
-- Analytics for fuel efficiency, utilization, costs, and ROI
-- CSV and PDF report export
-- Responsive, beginner-friendly interface
+## ⚡ Core Value Add (The RouteX Difference)
 
-## Roles
+Unlike traditional static logging systems, RouteX **automates prevention** and checks core business rules in real-time before operations occur:
 
-| Role | Main responsibilities |
-| --- | --- |
-| Fleet Manager | Manages vehicles, maintenance, trips, and fleet efficiency. |
-| Driver | Creates or views assigned trips and completes trip details. |
-| Safety Officer | Manages driver records, licence validity, and safety scores. |
-| Financial Analyst | Reviews fuel, maintenance, expenses, costs, and ROI. |
+1. **Interactive Overload Defense**: Checks planned cargo weights against maximum capacity limits before dispatching to block overloading.
+2. **Maintenance Dispatch Lock**: Automatically blocks damaged or "In Shop" vehicles from being selected for active trips.
+3. **Driver Credentials Check**: Prevents assignment of drivers with expired licenses or "Suspended" safety status.
+4. **Relational Database Audits**: Linking trip completion dynamically updates vehicle odometer readings and fuel expenditure logs.
+5. **Tactile Micro-Animations**: Scale-and-glow interactive card overlays on all dashboard KPIs and fleet listing cards.
+6. **Live Telemetry Ticker**: Horizontal marquee banner showing live status feeds of available and active vehicles.
 
-## Beginner-friendly tech stack
+---
+
+## 🛠️ Beginner-Friendly Tech Stack
 
 | Area | Technology | Why we chose it |
 | --- | --- | --- |
-| Front end | React + Vite | Fast to start, simple component-based UI. |
-| Styling | Tailwind CSS | Build a clean responsive interface without writing much CSS. |
-| Authentication | Firebase Authentication | Ready-made secure email/password login. |
-| Database | Cloud Firestore | Cloud database with no custom server to deploy during the hackathon. |
-| Charts | Chart.js + react-chartjs-2 | Easy KPI charts and visual reports. |
-| Icons | Lucide React | Simple, consistent icons. |
-| CSV export | Papa Parse | Converts report data into downloadable CSV files. |
-| PDF export | jsPDF + AutoTable | Creates printable report PDFs in the browser. |
-| Deployment | Vercel or Firebase Hosting | Free and quick deployment. |
+| **Framework** | Next.js 15 (App Router) | High-performance React server components with fast APIs. |
+| **Database** | Postgres (Neon Serverless) | Robust, relational database with schema integrity. |
+| **ORM** | Drizzle ORM | Type-safe SQL query generation and migration management. |
+| **Auth** | Better-Auth | Secure, drop-in credentials authentication with session support. |
+| **Styling** | Tailwind CSS + Vanilla CSS | Vibrant HSL palettes, default dark mode, and micro-animations. |
+| **Icons** | Lucide React | Clean, modern, consistent vector icon pack. |
+| **Exporting** | Papa Parse & jsPDF | Native client-side CSV and PDF reports. |
 
-## Core business rules
+---
 
-RouteX enforces these rules in the application before a trip is dispatched:
-
-1. Vehicle registration number must be unique.
-2. Retired and **In Shop** vehicles cannot be selected for a trip.
-3. A driver with an expired licence or **Suspended** status cannot be assigned.
-4. A vehicle or driver already **On Trip** cannot be assigned again.
-5. Cargo weight must not be greater than the vehicle's maximum load capacity.
-6. Dispatching a trip changes both selected vehicle and driver to **On Trip**.
-7. Completing a trip changes both vehicle and driver back to **Available**.
-8. Cancelling a dispatched trip also restores both to **Available**.
-9. Starting active maintenance changes the vehicle to **In Shop**.
-10. Closing maintenance restores the vehicle to **Available**, unless it is retired.
-
-## Status flows
-
-```mermaid
-stateDiagram-v2
-    [*] --> Available
-    Available --> On_Trip: Dispatch trip
-    On_Trip --> Available: Complete or cancel trip
-    Available --> In_Shop: Start maintenance
-    In_Shop --> Available: Close maintenance
-    Available --> Retired: Retire vehicle
-    In_Shop --> Retired: Retire vehicle
-```
-
-```mermaid
-stateDiagram-v2
-    [*] --> Draft
-    Draft --> Dispatched: Dispatch
-    Dispatched --> Completed: Complete trip
-    Draft --> Cancelled: Cancel
-    Dispatched --> Cancelled: Cancel
-```
-
-## Dashboard KPIs
-
-- Active vehicles
-- Available vehicles
-- Vehicles in maintenance
-- Active trips
-- Pending trips
-- Drivers on duty
-- Fleet utilization (%)
-- Fuel efficiency (distance / fuel used)
-- Operational cost (fuel + maintenance)
-- Vehicle ROI
-
-**Fleet utilization** = `(vehicles on trip / total non-retired vehicles) x 100`
-
-**Fuel efficiency** = `distance travelled / fuel consumed`
-
-**Vehicle ROI** = `(revenue - (maintenance cost + fuel cost)) / acquisition cost`
-
-## Data model
-
-| Collection | Important fields |
-| --- | --- |
-| `users` | name, email, role |
-| `vehicles` | registrationNumber, name, type, maxLoadCapacity, odometer, acquisitionCost, status, region |
-| `drivers` | name, licenceNumber, licenceCategory, licenceExpiryDate, phone, safetyScore, status |
-| `trips` | source, destination, vehicleId, driverId, cargoWeight, plannedDistance, actualDistance, revenue, status |
-| `maintenanceLogs` | vehicleId, description, cost, startDate, endDate, status |
-| `fuelLogs` | vehicleId, tripId, litres, cost, date, odometer |
-| `expenses` | vehicleId, tripId, category, amount, date, notes |
-
-## Suggested project structure
-
-```text
-src/
-  components/        # Reusable UI: tables, cards, forms, charts
-  pages/             # Dashboard, Vehicles, Drivers, Trips, Maintenance, Reports
-  services/          # Firebase and database functions
-  utils/             # Validations, calculations, exports
-  context/           # Authentication and user role state
-  data/              # Demo data (optional)
-  App.jsx
-  main.jsx
-```
-
-## Getting started
-
-### Prerequisites
-
-- Node.js 18 or later
-- A free Firebase project
-
-### Installation
+## 🔑 Environment Variables Setup
+Create a file named `.env.local` in the project root and add the following keys (see `.env.example` for reference):
 
 ```bash
-git clone <https://github.com/krinathakkar646/RouteX>
-cd <https://github.com/krinathakkar646/RouteX>
-npm install
-npm run dev
+# Database Connection (Postgres)
+DATABASE_URL="your-postgresql-connection-string"
+
+# Better Auth Configuration
+BETTER_AUTH_SECRET="your-better-auth-secret"
+BETTER_AUTH_URL="http://localhost:3000"
 ```
 
-Open the local link shown in the terminal, usually `http://localhost:5173`.
+---
 
-### Firebase setup
+## 🚀 Getting Started
 
-1. Create a Firebase project.
-2. Enable **Authentication -> Email/Password**.
-3. Create a **Cloud Firestore** database in test mode for the hackathon demo.
-4. Add your Firebase configuration values to `.env`.
-5. Create demo accounts and assign their role in the `users` collection.
+### Prerequisites
+* Node.js 18 or later
+* A Serverless Postgres Database (e.g. from [Neon.tech](https://neon.tech) or Supabase)
 
-> Before making the project public or production-ready, replace Firestore test-mode rules with properly restricted security rules.
+### Installation & Launch
 
-## Demo flow
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/krinathakkar646/RouteX.git
+   cd RouteX
+   ```
 
-1. Log in as a Fleet Manager.
-2. Add **Van-05** with a maximum capacity of **500 kg** and status **Available**.
-3. Add driver **Alex** with a valid licence.
-4. Create a trip carrying **450 kg**.
-5. Dispatch it. The system checks `450 kg <= 500 kg`, then changes the vehicle and driver to **On Trip**.
-6. Complete the trip with final odometer, fuel consumed, and revenue. Both return to **Available**.
-7. Add an Oil Change maintenance record. The vehicle becomes **In Shop** and disappears from the trip form.
-8. Show the updated dashboard, fuel efficiency, operational cost, and ROI report.
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-## Future improvements
+3. **Set up the database schemas**:
+   ```bash
+   npm run db:push
+   ```
 
-- Licence-expiry email reminders
-- Vehicle document uploads
-- Live GPS tracking and maps
-- Dark mode
-- More granular permissions
-- PDF reports with date filters
+4. **Launch the development server**:
+   ```bash
+   npm run dev
+   ```
 
-## Team
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## 👥 The Team
 
 | Name | Role |
 | --- | --- |
-| Krina Thakkar | Team Lead / Developer |
-| Divya Solanki | Developer |
-| Jaydev Patel | Designer / Presenter |
-| Krisha Antala | Developer |
+| **Krina Thakkar** | Team Lead / Backend & Database Architect |
+| **Divya Solanki** | Frontend & UI Developer |
+| **Jaydev Patel** | Product Designer / Presenter |
+| **Krisha Antala** | QA & Security Engineer |
 
-## License
+---
 
+## 📄 License
 This project was created for the Odoo Hackathon.
